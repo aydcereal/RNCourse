@@ -1,4 +1,11 @@
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  Modal,
+  Image,
+} from "react-native";
 import React, { useState } from "react";
 
 function GoalInput(props) {
@@ -12,37 +19,72 @@ function GoalInput(props) {
     props.onAddGoal(enteredGoal);
     setEnteredGoal("");
   }
+  function cancelGoalHandler() {
+    props.onCancel();
+  }
 
   return (
-    <View style={styles.buttonContainer}>
-      <TextInput
-        style={styles.textInput}
-        placeholder="Your course goal!"
-        onChangeText={goalInputHandler}
-        value={enteredGoal}
-      />
-      <Button title="Add Goal" onPress={addGoalHandler} />
-    </View>
+    <Modal visible={props.visible} animationType="slide">
+      <View style={styles.inputContainer}>
+        <Image
+          style={styles.image}
+          source={require("../assets/images/goal.png")}
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Your course goal!"
+          onChangeText={goalInputHandler}
+          value={enteredGoal}
+        />
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button title="Add Goal" onPress={addGoalHandler} color="#5e0acc" />
+          </View>
+          <View style={styles.button}>
+            <Button
+              title="Cancel"
+              color="#f31282"
+              onPress={cancelGoalHandler}
+            />
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 }
 
 export default GoalInput;
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  inputContainer: {
+    justifyContent: "center",
     alignItems: "center",
-    matginBottom: 24,
+    padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#CCCCCC",
+    backgroundColor: "#311b6b",
     flex: 1,
   },
   textInput: {
-    borderColor: "#CCCCCC",
+    borderColor: "#e4d0ff",
+    backgroundColor: "#e4d0ff",
+
+    borderRadius: 6,
     borderWidth: 1,
-    marginRight: 8,
-    padding: 5,
-    width: "80%",
+    padding: 10,
+    width: "100%",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginTop: 16,
+  },
+  button: {
+    width: "35%",
+    marginHorizontal: 8,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
   },
 });
